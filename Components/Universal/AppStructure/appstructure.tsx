@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   AppShell,
-  Text,
 } from "@mantine/core";
 import useStyles from "./styles";
 import Drawer from "../Drawer/drawer";

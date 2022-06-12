@@ -11,7 +11,7 @@ const Signin: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main style={{ paddingTop: "5%" }}>
-        <Form signin={true}/>
+        <Form/>
       </main>
     </>
   );
