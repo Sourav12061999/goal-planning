@@ -22,7 +22,6 @@ export default function Appstructure({children}:Props) {
         <Appbar opened={opened} setOpened={setOpened}/>
       }
     >
-      <Text>Resize app to see responsive navbar in action</Text>
       {
         children
       }
