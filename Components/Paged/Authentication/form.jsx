@@ -1,10 +1,13 @@
 import { TextInput, Button, Group, Box, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import Link from "next/link";
-type Props = {
-  signin?: boolean;
-};
-function Form({ signin }: Props) {
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { signupUser } from "../../../app/features/user/userSlice";
+import { useRouter } from "next/router";
+
+function Form({ signin }) {
   let initialValues = signin
     ? {
         email: "",
@@ -18,14 +21,28 @@ function Form({ signin }: Props) {
   const form = useForm({
     initialValues,
     validate: {
-      email: (value: string) =>
+      email: (value) =>
         /^\S+@\S+$/.test(value) ? null : "Invalid email",
-      password: (value: string) =>
+      password: (value) =>
         value.length > 3
           ? null
           : "Please put a password Greater than 3 characters",
     },
   });
+  const dispatch = useDispatch();
+  const { loading, user, error } = useSelector((state) => {
+    return {
+      loading: state.user.loading,
+      user: state.user.user,
+      error: state.user.error,
+    };
+  });
+  const router = useRouter();
+  useEffect(() => {
+   if(localStorage.getItem("userid")){
+     router.replace("/");
+   }
+  }, []);
 
   return (
     <Box
@@ -42,7 +59,15 @@ function Form({ signin }: Props) {
       >
         {signin ? "Signin to Your Account" : " Create an Account"}
       </Text>
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form
+        onSubmit={form.onSubmit((values) => {
+          if (!signin) {
+            dispatch(signupUser(values));
+          }else{
+            
+          }
+        })}
+      >
         {!signin ? (
           <TextInput
             required
@@ -74,7 +99,7 @@ function Form({ signin }: Props) {
         {signin ? "Don't have an account? " : "Already have an Account? "}
         <Text component="span" variant="link">
           <Link href={`/Authentication/${!signin ? "signin" : "signup"}`}>
-            {!signin?"Signin":"Signup"}
+            {!signin ? "Signin" : "Signup"}
           </Link>
         </Text>
       </Text>
