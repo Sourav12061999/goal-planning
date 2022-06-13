@@ -4,10 +4,10 @@ export default {
     component:Form,
 };
 
-const SigninForm = () => (
+export const SigninForm = () => (
     <Form signin={true}/>
 )
 
-const SignupForm = () => (
+export const SignupForm = () => (
     <Form/>
 )
