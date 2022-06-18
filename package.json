@@ -11,24 +11,23 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@mantine/core": "^4.2.8",
-    "@mantine/dates": "^4.2.8",
-    "@mantine/form": "^4.2.8",
-    "@mantine/hooks": "^4.2.8",
-    "@mantine/modals": "^4.2.8",
-    "@mantine/next": "^4.2.8",
-    "@mantine/notifications": "^4.2.8",
+    "@chakra-ui/icons": "^2.0.2",
+    "@chakra-ui/react": "^2.2.1",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/react-redux": "^7.1.24",
     "axios": "^0.27.2",
     "dayjs": "^1.11.3",
     "dotenv": "^16.0.1",
+    "framer-motion": "^6",
     "mongoose": "^6.3.6",
     "next": "12.1.6",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-redux": "^8.0.2",
-    "storybook": "^6.5.8"
+    "storybook": "^6.5.8",
+    "tabler-icons-react": "^1.49.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",

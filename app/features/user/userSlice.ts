@@ -10,7 +10,7 @@ const initialState: userDataStateType = {
 };
 export const fetchUser = createAsyncThunk("user/fetchUser", async (userToken) => {
   return axios
-    .get(`${userToken}`) // Here I have to pass the JWT token as parameter in the URL
+    .get(`/api/Authentication/${userToken}`) // Here I have to pass the JWT token as parameter in the URL
     .then((response) => {
       return response.data;
     });
@@ -31,7 +31,7 @@ export const signupUser = createAsyncThunk("user/signup",async (data) =>{
          })
 })
 
-export const signinUser = createAsyncThunk("user/signup",async (data) =>{
+export const signinUser = createAsyncThunk("user/signin",async (data) =>{
   return axios.post("/api/Authentication/signin",data)
          .then((response) =>{
            if(window){

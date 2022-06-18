@@ -2,6 +2,8 @@ export type userDataType={
   name:string,
   email:string,
   password?:string,
+  isError?:false,
+  id?:string,
 }
 export type userDataStateType ={
     loading:boolean,
