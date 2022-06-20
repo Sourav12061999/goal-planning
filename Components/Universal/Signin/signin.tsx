@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Stack, Button } from "@chakra-ui/react";
 import { Avatar } from "@chakra-ui/react";
-import { useGetUserQuery } from "../../../app/services/authApi";
+import { useGetUserMutation } from "../../../app/services/authApi";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../app/store";
+import { userAction } from "../../../app/features/user/userSlice";
+import Link from "next/link";
 function Signin() {
-  const [userID, setUserID] = useState<string | null>(null);
-  const { data, error, isLoading, isFetching, isSuccess } = useGetUserQuery(
-    userID || "",
-    {
-      skip: userID ? false : true,
-    }
-  );
-  console.log(data);
-  
+  const [getUserData, result] = useGetUserMutation();
+  const userData = useSelector((state: RootState) => {
+    return state.user;
+  });
+  const { getUser } = userAction;
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (localStorage.getItem("userid") != null) {
-      setUserID(localStorage.getItem("userid"));
+    if (localStorage.getItem("userid") != null && !userData.isSignedin) {
+      getUserData(localStorage.getItem("userid") || "");
     }
   }, []);
+  if (result.isSuccess) {
+    dispatch(getUser({ email: result.data.email, name: result.data.name }));
+  }
 
   return (
     <Stack
@@ -25,35 +29,39 @@ function Signin() {
       direction={"row"}
       spacing={6}
     >
-      {
-        !data?(<>
-        <Button
-        as={"a"}
-        fontSize={"sm"}
-        fontWeight={400}
-        variant={"link"}
-        href={"#"}
-      >
-        Sign In
-      </Button>
-      <Button
-        display={{ base: "none", md: "inline-flex" }}
-        fontSize={"sm"}
-        fontWeight={600}
-        color={"white"}
-        bg={"pink.400"}
-        _hover={{
-          bg: "pink.300",
-        }}
-      >
-        Sign Up
-      </Button>
-        </>):(
-          <>
-           <Avatar size={"md"} name={data?.name}/>
-          </>
-        )
-      }
+      {!userData.isSignedin ? (
+        <>
+          <Link href={"/Authentication/signin"}>
+            <Button
+              as={"a"}
+              fontSize={"sm"}
+              fontWeight={400}
+              variant={"link"}
+              href={"#"}
+            >
+              Sign In
+            </Button>
+          </Link>
+          <Link href={"/Authentication/signup"}>
+            <Button
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"pink.400"}
+              _hover={{
+                bg: "pink.300",
+              }}
+            >
+              Sign Up
+            </Button>
+          </Link>
+        </>
+      ) : (
+        <>
+          <Avatar size={"md"} name={userData.name} />
+        </>
+      )}
     </Stack>
   );
 }

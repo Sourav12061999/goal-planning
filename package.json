@@ -25,6 +25,7 @@
     "next": "12.1.6",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-icons": "^4.4.0",
     "react-redux": "^8.0.2",
     "storybook": "^6.5.8",
     "tabler-icons-react": "^1.49.0"

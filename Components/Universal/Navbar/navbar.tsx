@@ -11,7 +11,6 @@ import {
     PopoverTrigger,
     PopoverContent,
     useColorModeValue,
-    useBreakpointValue,
     useDisclosure,
   } from '@chakra-ui/react';
   import {
@@ -53,7 +52,7 @@ import {
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
               <Box>
-                 <img style={{width:"200px"}} src="FinnPlan.svg" alt="" />
+                 <img style={{width:"200px"}} src="https://next-js-blog-codebash.s3.us-east-2.amazonaws.com/FinnPlan.svg" alt="" />
               </Box>
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav />

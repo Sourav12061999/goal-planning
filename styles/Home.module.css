@@ -1,6 +1,5 @@
 .header{
   display: flex;
-  margin-top: 20px;
 }
 .header>div:nth-child(1){
   width: 30%;

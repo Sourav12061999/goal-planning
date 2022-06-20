@@ -1,6 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
+import Landing from "../Components/Page/Home/Landing/landing";
+import Services from "../Components/Page/Home/Services/services";
+import Pricing from '../Components/Page/Home/Pricing/pricing';
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
@@ -10,6 +13,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="main">
+        <Landing/>
+        <Services/>
+        <Pricing/>
       </div>
     </div>
   )
