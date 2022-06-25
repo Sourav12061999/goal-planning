@@ -17,7 +17,7 @@ export const authApi = createApi({
             query:(data) => ({
                url:"/api/Authentication/signup",
                body:JSON.stringify(data),
-               method:"POST",
+               method:"POST", 
             })
         }),
         getUser:builder.mutation<userDataType,string>({

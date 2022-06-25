@@ -1,41 +1,41 @@
 import {NavItem} from "./navbar.types";
 export const NAV_ITEMS: Array<NavItem> = [
     {
-      label: 'Inspiration',
+      label: 'Presonal',
       children: [
         {
-          label: 'Explore Design Work',
-          subLabel: 'Trending Design to inspire you',
+          label: 'Tools',
+          subLabel: 'Some Advance Tools that you can integrate in your account',
           href: '#',
         },
         {
-          label: 'New & Noteworthy',
-          subLabel: 'Up-and-coming Designers',
+          label: 'My Finances',
+          subLabel: 'Check where you left of or start new',
+          href: '/Personal',
+        },
+      ],
+    },
+    {
+      label: 'Businesses',
+      children: [
+        {
+          label: 'Templates',
+          subLabel: 'Start with a Blank Template or Use some Prebuild Ones',
+          href: '#',
+        },
+        {
+          label: 'Our Finances',
+          subLabel: 'Check where you left of or start new',
           href: '#',
         },
       ],
     },
     {
-      label: 'Find Work',
-      children: [
-        {
-          label: 'Job Board',
-          subLabel: 'Find your dream design job',
-          href: '#',
-        },
-        {
-          label: 'Freelance Projects',
-          subLabel: 'An exclusive list for contract work',
-          href: '#',
-        },
-      ],
-    },
-    {
-      label: 'Learn Design',
+      label: 'Pricing',
       href: '#',
     },
     {
-      label: 'Hire Designers',
+      label: 'About us',
       href: '#',
     },
   ];

@@ -4,7 +4,12 @@ import styles from '../styles/Home.module.css';
 import Landing from "../Components/Page/Home/Landing/landing";
 import Services from "../Components/Page/Home/Services/services";
 import Pricing from '../Components/Page/Home/Pricing/pricing';
+import { useSelector} from "react-redux";
+import {RootState} from "../app/store";
 const Home: NextPage = () => {
+  const isSignedin=useSelector((state:RootState) =>{
+    return state.user.isSignedin;
+  })
   return (
     <div className={styles.container}>
       <Head>
@@ -13,9 +18,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="main">
-        <Landing/>
-        <Services/>
-        <Pricing/>
+        <Landing isSignedin={isSignedin}/>
+        <Services isSignedin={isSignedin}/>
+        <Pricing isSignedin={isSignedin}/>
       </div>
     </div>
   )

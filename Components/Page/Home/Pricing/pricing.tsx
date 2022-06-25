@@ -13,7 +13,9 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FaCheckCircle } from "react-icons/fa";
-
+interface Props{
+  isSignedin:boolean | undefined,
+}
 function PriceWrapper({ children }: { children: ReactNode }) {
   return (
     <Box
@@ -29,7 +31,7 @@ function PriceWrapper({ children }: { children: ReactNode }) {
   );
 }
 
-export default function Pricing() {
+export default function Pricing({isSignedin}:Props) {
   return (
     <Box py={12}>
       <VStack spacing={2} textAlign="center">

@@ -8,8 +8,10 @@ import {
   Icon,
   IconProps,
 } from "@chakra-ui/react";
-
-export default function Landing() {
+interface Props{
+  isSignedin:boolean | undefined,
+}
+export default function Landing({isSignedin}:Props) {
   return (
     <Container maxW={"5xl"}>
       <Stack
