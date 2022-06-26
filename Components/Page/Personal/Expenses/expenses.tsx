@@ -15,21 +15,26 @@ import { ExpenseType } from "./expense.types";
 interface Props {
   setExpenses: Function;
   expense: ExpenseType;
+  expenses:Array<ExpenseType>,
 }
-function Expenses({ expense, setExpenses }: Props) {
+function Expenses({ expense, setExpenses,expenses }: Props) {
   const inputHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     key: "expense" | "amount" | "increment"
   ) => {
-    setExpenses((prev: Array<ExpenseType>) => {
-      const index = prev.findIndex((el) => el.id === expense.id);
-      if (key === "expense") {
-        prev[index][key] = event.target.value;
-      } else {
-        prev[index][key] = +event.target.value;
-      }
-      return prev;
-    });
+    const index = expenses.findIndex((el) => el.id === expense.id);
+      console.log(index);
+    setExpenses(expenses.map((el,i) =>{
+     if(index ===i){
+       if(key ==="expense"){
+        return {...el,[key]:event.target.value}
+       }else{
+        return {...el,[key]:+event.target.value}
+       }
+     }else{
+      return el;
+     }
+    }));
   };
   return (
     <HStack align={"flex-end"}>
@@ -67,8 +72,8 @@ function Expenses({ expense, setExpenses }: Props) {
       <Box>
         <Button
           onClick={() => {
-            setExpenses((prev: Array<ExpenseType>) => {
-              return prev.filter((el) => {
+            setExpenses((expenses: Array<ExpenseType>) => {
+              return expenses.filter((el) => {
                 return el.id != expense.id;
               });
             });

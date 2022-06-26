@@ -13,11 +13,19 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { ExpenseType } from "../Expenses/expense.types";
+import { FormDataTypes } from "./form.types";
 import Expenses from "../Expenses/expenses";
 import { BsPlusLg } from "react-icons/bs";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  createPersonal,
+  getPersonal,
+  updatePersonal,
+} from "../../../../app/features/Personal/personalSlice";
+import { RootState, AppDispatch } from "../../../../app/store";
 export default function Form() {
   const [expenseState, setExpenseState] = useState<Array<ExpenseType>>([
     {
@@ -27,17 +35,40 @@ export default function Form() {
       increment: 0,
     },
   ]);
-  const [formState, setFormState] = useState({
-    currAge:20,
-    retirementAge:60,
-    currSallary:20000,
-    yearlyIncrement:10,
-    monthlyExpense:expenseState
-  })
+  const [formState, setFormState] = useState<FormDataTypes>({
+    currAge: 20,
+    retirementAge: 60,
+    currSallary: 20000,
+    yearlyIncrement: 10,
+    monthlyExpense: expenseState,
+    userid:"",
+  });
+  const dispatch = useDispatch<AppDispatch>();
+  const { data, isLoading, error } = useSelector((state: RootState) => {
+    return {
+      isLoading: state.personal.isLoading,
+      error: state.personal.error,
+      data: state.personal.data,
+    };
+  });
   useEffect(() => {
-    setFormState({...formState,monthlyExpense:expenseState})
-  }, [expenseState])
+    setFormState({ ...formState, monthlyExpense: expenseState });
+  }, [expenseState]); // When the expense State changes chage the form State Aswell
+
+  useEffect(() => {
+    if (localStorage.getItem("userid") != null) {
+      dispatch(getPersonal(localStorage.getItem("userid") || ""));
+    }
+  }, []); // Calling the getPersonal and getting the data
+
+  useEffect(() => {
+    if (data != null) {
+      setExpenseState(data.monthlyExpense);
+      setFormState(data);
+    }
+  }, [isLoading]); // If data != null update the formState
   
+
   const inputHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     key: string
@@ -70,32 +101,49 @@ export default function Form() {
               <Box>
                 <FormControl id="firstName" isRequired>
                   <FormLabel>Current Age</FormLabel>
-                  <Input onChange={(e) =>{
-                     inputHandler(e,"currAge")
-                  }} type="number" />
+                  <Input
+                   value={formState.currAge}
+                    onChange={(e) => {
+                      inputHandler(e, "currAge");
+                    }}
+                    type="number"
+                  />
                 </FormControl>
               </Box>
               <Box>
                 <FormControl id="lastName" isRequired>
                   <FormLabel>Retirement Age</FormLabel>
-                  <Input onChange={(e) =>{
-                     inputHandler(e,"retirementAge")
-                  }}  type="number" />
+                  <Input
+                  value={formState.retirementAge}
+                    onChange={(e) => {
+                      inputHandler(e, "retirementAge");
+                    }}
+                    type="number"
+                  />
                 </FormControl>
               </Box>
             </HStack>
             <FormControl id="sallary" isRequired>
               <FormLabel>Current Monthly Sallary(After Tax)</FormLabel>
-              <Input onChange={(e) =>{
-                     inputHandler(e,"currSallary")
-                  }}  type="number" />
+              <Input
+              value={formState.currSallary}
+                onChange={(e) => {
+                  inputHandler(e, "currSallary");
+                }}
+                type="number"
+              />
             </FormControl>
             <FormControl id="increment" isRequired>
               <FormLabel>Yearly Increment</FormLabel>
               <InputGroup>
-                <Input type="number" onChange={(e) =>{
-                     inputHandler(e,"yearlyIncrement")
-                  }} placeholder="Increment" />
+                <Input
+                value={formState.yearlyIncrement}
+                  type="number"
+                  onChange={(e) => {
+                    inputHandler(e, "yearlyIncrement");
+                  }}
+                  placeholder="Increment"
+                />
                 <InputRightElement
                   pointerEvents="none"
                   children={<AiOutlinePercentage color="gray.300" />}
@@ -121,9 +169,9 @@ export default function Form() {
                   leftIcon={<BsPlusLg />}
                 ></Button>
               </HStack>
-              {expenseState.map((element) => (
+              {expenseState?.map((element) => (
                 <React.Fragment key={element.id}>
-                  <Expenses expense={element} setExpenses={setExpenseState} />
+                  <Expenses expenses={expenseState} expense={element} setExpenses={setExpenseState} />
                 </React.Fragment>
               ))}
             </FormControl>
@@ -136,8 +184,15 @@ export default function Form() {
                 _hover={{
                   bg: "blue.500",
                 }}
-                onClick={(()=> console.log(formState)
-                )}
+                onClick={() => {
+                  const userid=localStorage.getItem('userid') || "";
+                  if(data == null){
+                    dispatch(createPersonal({...formState,userid}))
+                  }else{
+                    console.log(formState);
+                    dispatch(updatePersonal({...formState,userid}))
+                  }
+                }}
               >
                 Save
               </Button>
