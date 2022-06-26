@@ -12,28 +12,45 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Link,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { ExpenseType } from "../Expenses/expense.types";
 import Expenses from "../Expenses/expenses";
-import {BsPlusLg} from "react-icons/bs";
+import { BsPlusLg } from "react-icons/bs";
 export default function Form() {
   const [expenseState, setExpenseState] = useState<Array<ExpenseType>>([
     {
       expense: "My Expense",
       amount: 100,
       id: Date.now(),
+      increment: 0,
     },
   ]);
+  const [formState, setFormState] = useState({
+    currAge:20,
+    retirementAge:60,
+    currSallary:20000,
+    yearlyIncrement:10,
+    monthlyExpense:expenseState
+  })
+  useEffect(() => {
+    setFormState({...formState,monthlyExpense:expenseState})
+  }, [expenseState])
+  
+  const inputHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    key: string
+  ) => {
+    setFormState({ ...formState, [key]: +event.target.value });
+  };
   return (
     <Flex
       minH={"100vh"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={3} px={6}>
+      <Stack spacing={8} mx={"auto"} maxW={"xl"} py={3} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
             Enter The Details
@@ -53,24 +70,32 @@ export default function Form() {
               <Box>
                 <FormControl id="firstName" isRequired>
                   <FormLabel>Current Age</FormLabel>
-                  <Input type="number" />
+                  <Input onChange={(e) =>{
+                     inputHandler(e,"currAge")
+                  }} type="number" />
                 </FormControl>
               </Box>
               <Box>
                 <FormControl id="lastName" isRequired>
                   <FormLabel>Retirement Age</FormLabel>
-                  <Input type="number" />
+                  <Input onChange={(e) =>{
+                     inputHandler(e,"retirementAge")
+                  }}  type="number" />
                 </FormControl>
               </Box>
             </HStack>
             <FormControl id="sallary" isRequired>
               <FormLabel>Current Monthly Sallary(After Tax)</FormLabel>
-              <Input type="number" />
+              <Input onChange={(e) =>{
+                     inputHandler(e,"currSallary")
+                  }}  type="number" />
             </FormControl>
             <FormControl id="increment" isRequired>
               <FormLabel>Yearly Increment</FormLabel>
               <InputGroup>
-                <Input type="number" placeholder="Increment" />
+                <Input type="number" onChange={(e) =>{
+                     inputHandler(e,"yearlyIncrement")
+                  }} placeholder="Increment" />
                 <InputRightElement
                   pointerEvents="none"
                   children={<AiOutlinePercentage color="gray.300" />}
@@ -78,21 +103,29 @@ export default function Form() {
               </InputGroup>
             </FormControl>
             <FormControl isRequired>
-            <HStack  style={{marginBottom:"30px"}}>
+              <HStack style={{ marginBottom: "30px" }}>
                 <Text fontSize={"2xl"}>Add Your Monthly Expenses</Text>
-                <Button onClick={() =>{
-                    setExpenseState([...expenseState,{
-                        expense:"My Expense",
-                        amount:100,
-                        id:Date.now(),
-                    }])
-                }} colorScheme={"blue"} leftIcon={<BsPlusLg/>}></Button>
-            </HStack>
-            {expenseState.map((element) => (
-              <React.Fragment>
-                <Expenses expense={element} setExpenses={setExpenseState} />
-              </React.Fragment>
-            ))}
+                <Button
+                  onClick={() => {
+                    setExpenseState([
+                      ...expenseState,
+                      {
+                        expense: "My Expense",
+                        amount: 100,
+                        id: Date.now(),
+                        increment: 0,
+                      },
+                    ]);
+                  }}
+                  colorScheme={"blue"}
+                  leftIcon={<BsPlusLg />}
+                ></Button>
+              </HStack>
+              {expenseState.map((element) => (
+                <React.Fragment key={element.id}>
+                  <Expenses expense={element} setExpenses={setExpenseState} />
+                </React.Fragment>
+              ))}
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
@@ -103,6 +136,8 @@ export default function Form() {
                 _hover={{
                   bg: "blue.500",
                 }}
+                onClick={(()=> console.log(formState)
+                )}
               >
                 Save
               </Button>
