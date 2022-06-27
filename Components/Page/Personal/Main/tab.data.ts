@@ -1,5 +1,6 @@
 import {TabType} from "../../../Universal/Tab/tab.types";
 import Form from "../Form/form";
+import Prediction from "../Predictions/prediction";
 export const data:Array<TabType>=[
     {
         heading:"My Details",
@@ -7,7 +8,7 @@ export const data:Array<TabType>=[
     },
     {
         heading:"My Predictions",
-        Component:Form,
+        Component:Prediction,
     },
     {
         heading:"My Goals",
